@@ -2,9 +2,8 @@ import './App.css';
 import Navbar from './components/Navbar';
 import React, { Component } from 'react'
 import * as axios from 'axios';
-import User from './components/User';
 import Users from './components/Users';
-import Spinner from './components/Spinner';
+import Search from './components/Search';
 
 class App extends Component{
   constructor(){
@@ -15,14 +14,31 @@ class App extends Component{
     }
   }
 
-  async componentDidMount(){
+  // async componentDidMount(){
+  //   this.setState({
+  //     loading: true
+  //   })
+
+  //   const users = await axios({
+  //     method: 'get',
+  //     url: 'https://api.github.com/users'
+  //   });
+      
+  //   this.setState({
+  //     users: users.data.items,
+  //     loading: false
+  //   })
+  // }
+
+  //Search the Github users api
+  searchUsers= async (text)=>{
     this.setState({
       loading: true
     })
 
     const users = await axios({
       method: 'get',
-      url: 'https://api.github.com/users'
+      url: `https://api.github.com/users?q=${text}`,
     });
       
     this.setState({
@@ -31,17 +47,18 @@ class App extends Component{
     })
   }
 
+  //clear users list
+  clearUsers= ()=> this.setState({ users: users.data});
+
   render(){
-    console.log(this.state.users)
+    // console.log(this.state.users)
 
     return (
       <div className="App">
         <Navbar/>
-        <div>
-          {this.state.loading ? 
-          <Spinner/> : 
-          <Users users= {this.state.users}/> 
-          }
+        <div className= "container">
+          <Search searchUsers= {this.searchUsers} clearUsers= {this.clearUsers} isClear= {this.state.users.length? true : false} />
+          <Users loading= {this.state.loading} users= {this.state.users}/> 
         </div>
       </div>
   

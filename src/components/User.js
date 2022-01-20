@@ -1,17 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class User extends Component{
-    // const {id, avatar_url, login, html_url}= this.props.user;
-    state={
-        id: this.props.user.id,
-        avatar_url: this.props.user.avatar_url,
-        login: this.props.user.login,
-        html_url: this.props.user.html_url
-    }
-
-
-    render(){
-        const {avatar_url, login, html_url}= this.state;
+function User ({user: {avatar_url, login, html_url}}){
 
         return (
             <div className='card text-center'>
@@ -24,8 +13,6 @@ class User extends Component{
             </div>
          </div>
         )
-
-    }
 }
 
 export default User

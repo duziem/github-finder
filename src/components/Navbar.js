@@ -1,44 +1,26 @@
-// function Navbar() {   
-//     return ( 
-//         <nav classname= "navbar bg-primary">
-//             <h1>
-//                 <i class= {props.title}></i>
-//             </h1>
-            
-//         </nav>
-//      );
-     
-// }
-
-// Navbar.defaultProps= {
-//     title: "Github Finder",
-//     icon: "fab fa-github"
-// }
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
 
+function Navbar({icon, title}) {   
+    return ( 
+        <nav className= "navbar bg-primary">
+            <h1>
+                <i class= {icon}></i>&nbsp;{title}
+            </h1>
+            
+        </nav>
+     );
+     
+}
 
-class Navbar extends Component {
-    static defaultProps= {
-        title: "Github Finder",
-        icon: "fab fa-github"
-    }
+Navbar.defaultProps= {
+    title: "Github Finder",
+    icon: "fab fa-github"
+}
 
-    static propTypes= {
-        title: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-    }
-
-    render() {
-        return ( 
-            <nav className= "navbar bg-primary">
-                <h1>
-                    <i class= {this.props.icon}></i>&nbsp;{this.props.title}
-                </h1>
-                
-            </nav>
-         );
-    }
+Navbar.propTypes= {
+    title: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
 }
 
 
