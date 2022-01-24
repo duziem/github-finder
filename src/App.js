@@ -13,7 +13,6 @@ class App extends Component{
       alert: null
     }
 
-
   // async componentDidMount(){
   //   this.setState({
   //     loading: true
@@ -52,6 +51,7 @@ class App extends Component{
     
   }
 
+  //clear users list
   clearUsers= ()=>{
     this.setState({users:[]})
   }
@@ -60,8 +60,9 @@ class App extends Component{
     this.setState({alert: {msg, type}})
   }
 
+
   render(){
-    console.log(this.state.users)
+    // console.log(this.state.users)
 
     return (
       <div className="App">
