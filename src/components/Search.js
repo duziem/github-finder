@@ -7,13 +7,17 @@ export class Search extends Component {
     }
 
     static propTypes = {
-
+        isClear: PropTypes.bool.isRequired,
+        clearUsers: PropTypes.func.isRequired,
+        setAlert: PropTypes.func.isRequired,
+        searchUsers: PropTypes.func.isRequired
     }
 
     handleChange= (e)=>{
         this.setState({[e.target.name]: e.target.value});
     }
 
+    //clear the text state
     clearText= ()=>{
         this.setState({text: ''});
     }
@@ -21,10 +25,10 @@ export class Search extends Component {
     handleSubmit= (e)=>{
         e.preventDefault();
         if(this.state.text === ''){
-            this.props.setAlert()
+            this.props.setAlert('Please Enter Something', 'light')
         }else{
             this.props.searchUsers(this.state.text);
-            this.clearText();
+            this.clearText(); // clear the text state which would clear the search input field
         }
     }
 
