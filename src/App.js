@@ -3,16 +3,18 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import axios from 'axios';
-import Users from './components/Users';
-import Search from './components/Search';
+// import Users from './components/Users';
+// import Search from './components/Search';
 import Alert from './components/Alert';
 import UserItem from './components/UserItem';
+import Home from './components/Home';
 
 
 class App extends Component{
     state={
       users: [],
       user: {},
+      repos: [],
       loading: false,
       alert: null
     }
@@ -75,7 +77,7 @@ class App extends Component{
 
     const user = await axios({
       method: 'get',
-      url: `https://api.github.com/users?q=${username}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`
+      url: `https://api.github.com/users/${username}?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`
     });
     
     if(user.data){
@@ -83,6 +85,25 @@ class App extends Component{
         user: user.data,
         loading: false
       })
+    }else{
+      console.log('res did not return data');
+      this.setState({loading: false})
+    }
+  }
+
+  //Get Github user repos
+  getUserRepos= async (username)=>{
+    this.setState({
+      loading: true
+    })
+
+    const repos = await axios({
+      method: 'get',
+      url: `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`
+    });
+    
+    if(repos.data){
+      this.setState({repos: repos.data, loading: false})
     }else{
       console.log('res did not return data');
       this.setState({loading: false})
@@ -99,15 +120,18 @@ class App extends Component{
           <div className= "container">
             <Alert alert= {this.state.alert} clearAlert= {this.clearAlert} />
             <Switch>
-              <Route exact path= '/' render={props=>(
+              {/* <Route exact path= '/' render={props=>(
                 <div>
                 <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} isClear= {this.state.users.length ? true : false} setAlert= {this.setAlert} />
                 <Users loading= {this.state.loading} users= {this.state.users}/>
               </div>
+              )} /> */}
+              <Route exact path= '/' render= {props=> (
+                <Home {...props} searchUsers={this.searchUsers} clearUsers={this.clearUsers} setAlert= {this.setAlert} loading= {this.state.loading} users= {this.state.users} />
               )} />
               <Route path='/user/:login' render= {props=>(
-                <UserItem {...props} getUser= {this.getUser} user= {this.state.user} loading={this.state.loading} />
-              )}></Route>
+                <UserItem {...props} getUser= {this.getUser} getUserRepos= {this.getUserRepos} user= {this.state.user} repos= {this.state.repos} loading={this.state.loading} />
+              )} />
             </Switch>
           </div>
         </div>
