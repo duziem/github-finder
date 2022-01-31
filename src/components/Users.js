@@ -1,9 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import User from './User'
 import Spinner from './Spinner';
+import GithubContext from '../context/github/GithubContext';
 
-function Users({users, loading}) {
+function Users() {
+    const githubContext= useContext(GithubContext);
+    const {users, loading}= githubContext;
+
     return (
         <div className='grid-3'>
             {
@@ -13,10 +16,6 @@ function Users({users, loading}) {
             }
         </div>
     )
-}
-
-Users.propTypes = {
-    users: PropTypes.array.isRequired,
 }
 
 export default Users

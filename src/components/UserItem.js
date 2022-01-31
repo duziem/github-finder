@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
 import Spinner from './Spinner';
 import Repos from './Repos';
-
+import GithubContext from '../context/github/GithubContext';
 
 function UserItem(props){
+  const githubContext= useContext(GithubContext);
+  const {getUser, getUserRepos, user, loading, repos}= githubContext;
 
   const {
     name,
@@ -21,14 +22,14 @@ function UserItem(props){
     hireable,
     public_repos,
     public_gist
-  }= props.user;
+  }= user;
 
-  const {loading, repos, match}= props;
+  const {match}= props;
 
   //call the getUser and getuserRepos functions when the component is mounted or rendered
   useEffect(()=>{
-    props.getUser(match.params.login);
-    props.getUserRepos(match.params.login);
+    getUser(match.params.login);
+    getUserRepos(match.params.login);
   }, []);
 
   return (
@@ -83,13 +84,6 @@ function UserItem(props){
       <Repos repos= {repos} />
     </>
   );
-}
-
-UserItem.propTypes= {
-  loading: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
-  getUser: PropTypes.func.isRequired,
-  getUserRepos: PropTypes.func.isRequired
 }
 
 export default UserItem;
