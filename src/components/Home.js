@@ -4,11 +4,11 @@ import Search from './Search';
 
 
 
-function Home({ setAlert }){
+function Home(){
 
     return (
       <div>
-          <Search setAlert= {setAlert} />
+          <Search />
           <Users/>
       </div>
   )

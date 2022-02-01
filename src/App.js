@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -6,38 +6,31 @@ import Alert from './components/Alert';
 import UserItem from './components/UserItem';
 import Home from './components/Home';
 import GithubState from './context/github/GithubState';
+import AlertState from './context/alert/AlertState';
 
 
 function App (){
 
-  const [alert, setAlert]= useState(null);
-
-  const showAlert= (msg, type)=>{
-    setAlert({msg, type})
-  }
-  const clearAlert= ()=>{
-    setAlert(null)
-  }
-
-
     return (
       <GithubState>
-        <Router>
-          <div className="App">
-            <Navbar/>
-            <div className= "container">
-              <Alert alert= {alert} clearAlert= {clearAlert} />
-              <Switch>
-                <Route exact path= '/' render= {props=> (
-                  <Home {...props} setAlert= {showAlert} />
-                )} />
-                <Route path='/user/:login' render= {props=>(
-                  <UserItem {...props} />
-                )} />
-              </Switch>
+        <AlertState>
+          <Router>
+            <div className="App">
+              <Navbar/>
+              <div className= "container">
+                <Alert />
+                <Switch>
+                  <Route exact path= '/' render= {props=> (
+                    <Home {...props} />
+                  )} />
+                  <Route path='/user/:login' render= {props=>(
+                    <UserItem {...props} />
+                  )} />
+                </Switch>
+              </div>
             </div>
-          </div>
-        </Router>
+          </Router>
+        </AlertState>
       </GithubState>
   
     );

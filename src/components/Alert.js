@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import AlertContext from '../context/alert/AlertContext';
 
-function Alert({alert, clearAlert}) {
+function Alert() {
+    const alertContext= useContext(AlertContext);
+    const { alert, clearAlert }= alertContext;
+
     return (
         alert !== null && (
             <div className={`alert alert-${alert.type}`}>
